@@ -1,0 +1,52 @@
+#!/usr/bin/python
+
+import commands
+import sys
+
+old=sys.argv[1]
+new=sys.argv[2]
+
+ls = commands.getoutput('ls /var/www/html')
+lsl = ls.split()
+ls_list=[]
+
+for i in lsl:
+	if '.html' in i:
+		ls_list.append(i)
+
+print ls_list
+
+for i in ls_list:
+	f = open('/var/www/html/'+i,'r')
+	d = f.read()
+	if old in d:
+		d = d.replace(old,new)	
+	f.close()
+
+	f1 = open('/var/www/html/'+i,'w')
+	f1.write(d)
+	f1.close()
+
+
+ls = commands.getoutput('ls /var/www/cgi-bin')
+lsl = ls.split()
+ls_list=[]
+
+for i in lsl:
+	if '.py' in i:
+		ls_list.append(i)
+
+print ls_list
+
+for i in ls_list:
+	f = open('/var/www/cgi-bin/'+i,'r')
+	d = f.read()
+	if old in d:
+		d = d.replace(old,new)	
+	f.close()
+
+	f1 = open('/var/www/cgi-bin/'+i,'w')
+	f1.write(d)
+	f1.close()
+
+
